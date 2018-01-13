@@ -1,0 +1,14 @@
+---
+
+- hosts: all
+  become: yes
+  remote_user: root
+  tasks:
+  - user:
+      name: root
+      generate_ssh_key: yes
+
+- hosts: connect_from
+  become: yes
+  roles:
+    - ssh-remote-host

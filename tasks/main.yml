@@ -1,0 +1,32 @@
+---
+
+- name: Read ssh public key
+  shell: cat {{ ssh_remote_host_public_key_file }}
+  register: ssh_public_key_content
+  changed_when: False
+  tags: ssh_remote_host, add_public_key
+
+- name: Ensure ssh public key is existing on target remote hosts.
+  authorized_key:
+    user: "{{ ssh_remote_host_public_key_user }}"
+    key: "{{ item[0] }}"
+  delegate_to: "{{ item[1] }}"
+  with_nested:
+    - "{{ ssh_public_key_content.stdout }}"
+    - "{{ groups[ssh_remote_host_inventory_group_name] }}"
+  tags: ssh_remote_host, add_public_key
+
+- name: Keyscan the remote host
+  command: "{{ ssh_remote_host_keyscan_cmd }} {{ item }}"
+  with_items: "{{ groups[ssh_remote_host_inventory_group_name]|map('extract', hostvars, 'ansible_host')|list }}"
+  register: remote_host_keyscan
+  changed_when: False
+  tags: ssh_remote_host, add_known_hosts
+
+- name: Ensure remote host keys are added in ~/.ssh/known_hosts file
+  lineinfile: name=~/.ssh/known_hosts create=yes line={{ item.1 }}
+  with_subelements:
+    - '{{ remote_host_keyscan.results }}'
+    - stdout_lines
+    - skip_missing: yes
+  tags: ssh_remote_host, add_known_hosts

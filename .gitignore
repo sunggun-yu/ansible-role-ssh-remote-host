@@ -1,0 +1,20 @@
+
+# Mac Directory #
+.DS_Store
+
+# Jetbrains IDE Project Files #
+.idea
+*.iml
+
+# Packer Cache directory #
+packer_cache
+
+# Build directory #
+packer/build
+
+# Ansible
+*.log
+*.retry
+
+# Vagrant
+.vagrant

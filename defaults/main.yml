@@ -1,0 +1,5 @@
+---
+ssh_remote_host_public_key_user: "root"
+ssh_remote_host_public_key_file: "/root/.ssh/id_rsa.pub"
+ssh_remote_host_keyscan_cmd: "/usr/bin/ssh-keyscan -4 -t ecdsa-sha2-nistp256 -T 10"
+ssh_remote_host_inventory_group_name: all

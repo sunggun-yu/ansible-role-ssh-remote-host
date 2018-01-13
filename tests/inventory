@@ -1,0 +1,11 @@
+
+host-01       ansible_host=192.168.98.11          ansible_user=vagrant        ansible_ssh_private_key_file=./.vagrant/machines/host-01/virtualbox/private_key
+host-02       ansible_host=192.168.98.12          ansible_user=ubuntu         ansible_ssh_private_key_file=./.vagrant/machines/host-02/virtualbox/private_key
+host-03       ansible_host=192.168.98.13          ansible_user=ubuntu         ansible_ssh_private_key_file=./.vagrant/machines/host-03/virtualbox/private_key
+
+[connect_from]
+host-01
+
+[connect_to]
+host-02
+host-03
